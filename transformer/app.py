@@ -9,15 +9,11 @@ from nltk.corpus import wordnet
 from sentence_transformers import SentenceTransformer, util
 
 import spacy
-from spacy.cli import download
 
-try:
-    NLP_GLOBAL = spacy.load("en_core_web_sm")
-except OSError:
-    download("en_core_web_sm")
-    NLP_GLOBAL = spacy.load("en_core_web_sm")
 
-warnings.filterwarnings("ignore", category=FutureWarning)
+# Load the model; no download needed
+NLP_GLOBAL = spacy.load("en_core_web_sm")
+
 
 
 def download_nltk_resources():
