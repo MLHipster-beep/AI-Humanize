@@ -8,9 +8,17 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from sentence_transformers import SentenceTransformer, util
 
+import spacy
+from spacy.cli import download
+
+try:
+    NLP_GLOBAL = spacy.load("en_core_web_sm")
+except OSError:
+    download("en_core_web_sm")
+    NLP_GLOBAL = spacy.load("en_core_web_sm")
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-NLP_GLOBAL = spacy.load("en_core_web_sm")
 
 def download_nltk_resources():
     """
@@ -53,7 +61,8 @@ class AcademicTextHumanizer:
         if seed is not None:
             random.seed(seed)
 
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = NLP_GLOBAL
+
         self.model = SentenceTransformer(model_name)
 
         # Transformation probabilities

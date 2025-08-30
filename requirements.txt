@@ -1,9 +1,9 @@
 streamlit
 nltk
 spacy
-torch
-transformers
 sentence-transformers
+transformers
+torch
 numpy==2.2.6
 pandas==2.2.3
 matplotlib==3.10.3
