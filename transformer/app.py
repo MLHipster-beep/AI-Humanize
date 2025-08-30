@@ -9,9 +9,6 @@ from nltk.corpus import wordnet
 from sentence_transformers import SentenceTransformer, util
 
 import spacy
-
-
-# Load the model; no download needed
 NLP_GLOBAL = spacy.load("en_core_web_sm")
 
 
