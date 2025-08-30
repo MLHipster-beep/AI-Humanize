@@ -1,30 +1,34 @@
 import ssl
 import random
 import warnings
+
 import nltk
 import spacy
-import streamlit as st
-
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from sentence_transformers import SentenceTransformer, util
 
-# Cache heavy resources so Streamlit doesn’t re-run them each reload
-@st.cache_resource
-def load_spacy_model():
-    import en_core_web_sm
-    return en_core_web_sm.load()
+warnings.filterwarnings("ignore", category=FutureWarning)
 
-@st.cache_resource
+NLP_GLOBAL = spacy.load("en_core_web_sm")
+
 def download_nltk_resources():
-    resources = ['punkt', 'averaged_perceptron_tagger', 'wordnet']
+    """
+    Download required NLTK resources if not already installed.
+    """
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
+
+    resources = ['punkt', 'averaged_perceptron_tagger', 'punkt_tab','wordnet','averaged_perceptron_tagger_eng']
     for resource in resources:
-        nltk.download(resource, quiet=True)
-
-# Initialize once
-NLP_GLOBAL = load_spacy_model()
-download_nltk_resources()
-
+        try:
+            nltk.download(resource, quiet=True)
+        except Exception as e:
+            print(f"Error downloading {resource}: {str(e)}")
 
 # This class  contains methods to humanize academic text, such as improving readability or
 # simplifying complex language.
