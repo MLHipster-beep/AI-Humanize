@@ -3,14 +3,22 @@ import random
 import warnings
 
 import nltk
-import spacy
+
 from nltk.tokenize import word_tokenize
 from nltk.corpus import wordnet
 from sentence_transformers import SentenceTransformer, util
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-NLP_GLOBAL = spacy.load("en_core_web_sm")
+import spacy
+from spacy.cli import download
+
+try:
+    NLP_GLOBAL = spacy.load("en_core_web_sm")
+except OSError:
+    download("en_core_web_sm")
+    NLP_GLOBAL = spacy.load("en_core_web_sm")
+
 
 def download_nltk_resources():
     """
